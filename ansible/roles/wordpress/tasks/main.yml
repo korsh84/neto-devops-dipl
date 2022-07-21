@@ -62,6 +62,13 @@
     src: "templates/wp-config.php.j2"
     dest: "/var/www/{{ virtual_domain }}/wp-config.php"
 
+- name: Install Gitlab Runner
+  apt:
+    name: gitlab-runner
+    state: present
+  notify:
+    - gitlab runner systemd
+
 - name: Restart nginx, in all cases
   ansible.builtin.service:
     name: nginx
