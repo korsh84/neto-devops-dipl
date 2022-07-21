@@ -1,0 +1,49 @@
+Host nginx
+    HostName 62.84.126.100
+    User ubuntu
+    IdentityFile ~/.ssh/id_rsa
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+
+
+Host db01
+   ProxyJump nginx
+   HostName 192.168.101.101
+   User ubuntu
+   IdentityFile ~/.ssh/id_rsa
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null
+
+Host db02
+   ProxyJump nginx
+   HostName 192.168.102.101
+   User ubuntu
+   IdentityFile ~/.ssh/id_rsa
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null
+
+Host app
+   ProxyJump nginx
+   HostName 192.168.101.102
+   User ubuntu
+   IdentityFile ~/.ssh/id_rsa
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null
+
+Host gitlab
+   ProxyJump nginx
+   HostName 192.168.101.103
+   User ubuntu
+   IdentityFile ~/.ssh/id_rsa
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null
+
+Host monitoring
+   ProxyJump nginx
+   HostName 192.168.101.104
+   User ubuntu
+   IdentityFile ~/.ssh/id_rsa
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null
+
+

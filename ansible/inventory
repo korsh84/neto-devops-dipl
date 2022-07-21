@@ -1,0 +1,25 @@
+#
+[nodes:children]
+nginxs
+apps
+dbservers
+gitlabs
+monitorings
+
+[nginxs]
+nginx ansible_host=nginx virtual_domain=avkorsh.ru
+
+[apps]
+app ansible_host=app virtual_domain=avkorsh.ru
+
+[dbservers]
+db01 ansible_host=db01 mysql_replication_role=master
+db02 ansible_host=db02 mysql_replication_role=slave
+
+[gitlabs]
+gitlab ansible_host=gitlab virtual_domain=avkorsh.ru
+
+[monitorings]
+monitoring ansible_host=monitoring 
+
+

@@ -1,0 +1,25 @@
+---
+- name: Set LetsEncrypt variables
+  set_fact:
+    letsencrypt_email: info@{{ virtual_domain }}
+
+- name: Check if certificate already exists
+  stat:
+    path: "/etc/letsencrypt/live/{{ virtual_domain }}/cert.pem"
+  register: letsencrypt_cert
+
+- name: Generate new certificate if one doesn't exist
+  shell: >
+    certbot certonly --nginx --force-renewal --email '{{ letsencrypt_email }}'
+    --agree-tos --no-eff-email -d '{{ virtual_domain }}'
+    -d 'www.{{ virtual_domain }}' -d 'gitlab.{{ virtual_domain }}'
+    -d 'grafana.{{ virtual_domain }}' -d 'prometheus.{{ virtual_domain }}'
+    -d 'alertmanager.{{ virtual_domain }}'
+    {% if letsencrypt_staging %} --staging {% endif %}
+#  when: not letsencrypt_cert.stat.exists
+
+- name: Add cron job for certbot renewal 
+  cron:
+    name: Certbot automatic renewal
+    job: "certbot renew"
+    month: "*/2"

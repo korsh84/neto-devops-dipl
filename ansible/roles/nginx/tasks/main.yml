@@ -1,0 +1,41 @@
+- name: Run apt update
+  apt:
+#    upgrade: "yes"
+    update_cache: yes
+    cache_valid_time: 432000
+- name: Install Nginx Web Server
+  apt:
+    name: nginx
+    state: latest
+  notify:
+    - nginx systemd
+
+- name: Create Iptables NAT chain
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    out_interface: 'eth0'
+    jump: MASQUERADE
+
+- name: Enable IPv4 forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    state: present
+    reload: True
+
+- name: Install IPtables-persistent
+  apt:
+    name: iptables-persistent
+    state: present
+
+- name: Install Gitlab Runner
+  apt:
+    name: gitlab-runner
+    state: present
+  notify:
+    - gitlab runner systemd
+
+- import_tasks: certbot.yml
+- import_tasks: cert.yml
+- import_tasks: conf.yml

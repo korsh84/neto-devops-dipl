@@ -1,0 +1,16 @@
+- name: Replace nginx.conf
+  template:
+    src: templates/nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Replace default site
+  template:
+    src: templates/nginx_default.conf
+    dest: /etc/nginx/sites-enabled/default
+
+- name: Add virtual domain
+  template:
+    src: templates/nginx_vhosts.conf
+    dest: /etc/nginx/sites-enabled/{{ virtual_domain }}.conf
+  notify:
+    - nginx restart

@@ -1,0 +1,16 @@
+---
+- name: Set Certbot package name and versions
+  set_fact:
+    certbot_version: 0.40.0-1ubuntu0.1
+    certbot_nginx_version: 0.40.0-0ubuntu0.1
+    certbot_nginx_name: python3-certbot-nginx
+
+- name: Install certbot
+  package:
+    name: "certbot={{ certbot_version }}"
+    state: present
+
+- name: Install certbot-nginx plugin
+  package:
+    name: "{{ certbot_nginx_name }}={{ certbot_nginx_version }}"
+    state: present
